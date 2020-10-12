@@ -1,0 +1,16 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/LocationCQRS
+/bin/Debug
+/obj
+/Location.Service.Api/bin/Debug/netcoreapp3.1
+/Location.Service.Api/obj
+/Location.Service.Application/bin/Debug/netcoreapp3.1
+/Location.Service.Application/obj
+/Location.Service.Domain/bin/Debug/netcoreapp3.1
+/Location.Service.Domain/obj
+/Location.Service.Insfrastructure/bin/Debug/netcoreapp3.1
+/Location.Service.Insfrastructure/obj
+/src/Location.Service.Api/obj/Docker
