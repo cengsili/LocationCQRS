@@ -5,7 +5,7 @@
     <DockerTargetOS>Linux</DockerTargetOS>
     <ProjectGuid>3ddbca3f-bf33-4c91-9c9f-940654436186</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>{Scheme}://{ServiceIPAddress}{ServicePort}/api/locations</DockerServiceUrl>
+    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/api/locations</DockerServiceUrl>
     <DockerServiceName>location.crqs.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
