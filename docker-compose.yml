@@ -6,7 +6,7 @@ services:
     container_name: location.crqs.db
     environment:     
       - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=borda
+      - POSTGRES_PASSWORD=12345
       - POSTGRES_DB=locationcrqsdb
       - ALLOW_IP_RANGE='0.0.0.0/0'
       - TZ=Asia/Istanbul
@@ -20,7 +20,7 @@ services:
     container_name: location.crqs.pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-borda}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-12345}
     ports:
       - "${PGADMIN_PORT:-5060}:80"
     volumes:
