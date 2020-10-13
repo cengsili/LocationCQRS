@@ -1,6 +1,6 @@
 ﻿using Borda.Service.DotnetCore.Repositories;
 using Location.Service.Domain.Locations;
-using Location.Servise.Insfrastructure.Contexts;
+using Location.Service.Infrastructure.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using domain = Location.Service.Domain.Locations;
 
-namespace Location.Service.Insfrastructure.Repositories
+namespace Location.Service.Infrastructure.Repositories
 {
     public class LocationRepository : CrudRepository<LocationContext, domain.Location, int>, ILocationRepository
     {

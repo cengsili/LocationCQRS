@@ -4,7 +4,7 @@ using domain =Location.Service.Domain.Locations ;
 using Microsoft.EntityFrameworkCore;
 using Borda.Service.DotnetCore.Contexts.Extensions;
 
-namespace Location.Servise.Insfrastructure.Contexts
+namespace Location.Service.Infrastructure.Contexts
 {
     public class LocationContext : BaseContext
     {

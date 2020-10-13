@@ -1,11 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Location.Service.Insfrastructure\Location.Service.Insfrastructure.csproj" />
+    <Folder Include="Locations\UpdatParentOfLocation\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Location.Service.Domain\Location.Service.Domain.csproj" />
   </ItemGroup>
 
 </Project>

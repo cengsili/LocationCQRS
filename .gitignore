@@ -14,3 +14,5 @@
 /Location.Service.Insfrastructure/bin/Debug/netcoreapp3.1
 /Location.Service.Insfrastructure/obj
 /src/Location.Service.Api/obj/Docker
+/Location.Service.Infrastructure/bin/Debug/netcoreapp3.1
+/Location.Service.Infrastructure/obj
