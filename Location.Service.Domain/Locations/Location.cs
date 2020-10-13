@@ -38,5 +38,9 @@ namespace Location.Service.Domain.Locations
 
        
        // public List<Location> ChildLocations { get; set; }
+       public Location UpdateParentOfLocation(int parentId, int id)
+       {
+            return new Location();
+       }
     }
 }

@@ -7,6 +7,7 @@ namespace Location.Service.Domain.Locations
 {
     public interface ILocationRepository
     {
-        List<Location> GetBranchLocations(int branchid);
+        Task<List<Location>> GetBranchLocations(int branchid);
+        Task<Location> GetByIdAsync(int id, bool asNoTracking = false);
     }
 }

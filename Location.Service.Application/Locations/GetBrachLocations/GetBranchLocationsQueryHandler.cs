@@ -18,7 +18,7 @@ namespace Location.Service.Application.Locations.GetBranchLocations
         }
         public async Task<List<LocationDto>> Handle(GetBranchLocationsQuery request, CancellationToken cancellationToken)
         {
-            var locationlist = locationRepository.GetBranchLocations(request.BranchId);
+            var locationlist = await locationRepository.GetBranchLocations(request.BranchId);
             var locationDtoList = locationlist.Select(e =>new LocationDto(){
                                                             Name=e.Name,
                                                             LocationCode= e.ManualCode

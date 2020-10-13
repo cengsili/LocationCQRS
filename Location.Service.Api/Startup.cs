@@ -17,6 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Location.Service.Domain;
 
 namespace Location.Api
 {
@@ -43,8 +44,9 @@ namespace Location.Api
                         npSqlOptions.CommandTimeout(3300);
                     });
             });
-            
-            services.AddScoped(typeof(IEFOperations<>), typeof(EFOperations<>));
+
+            services.AddScoped<ILocationUnitOfWork, LocationUnitOfWork>();
+            services.AddScoped(typeof(IEFOperations<>), typeof(EFOperations<>));            
             services.AddScoped<ILocationRepository, LocationRepository>();
             services.AddMediatR(typeof(GetBranchLocationsQuery).Assembly);
         }

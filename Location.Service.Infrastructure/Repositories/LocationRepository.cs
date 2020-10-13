@@ -13,29 +13,22 @@ namespace Location.Service.Infrastructure.Repositories
 {
     public class LocationRepository : CrudRepository<LocationContext, domain.Location, int>, ILocationRepository
     {
-        private readonly LocationContext context;
-
-        public LocationRepository(IEFOperations<LocationContext> efOperations, LocationContext context) : base(efOperations)
+        
+        public LocationRepository(IEFOperations<LocationContext> efOperations) : base(efOperations)
         {
-            this.context = context;
+         
         }
 
-        public List<domain.Location> GetBranchLocations(int branchid)
+        public async Task<List<domain.Location>> GetBranchLocations(int branchid)
         {
-            try
-            {
-                return EFOperations.GetQueryable<domain.Location>(true)
-               .Where(e => e.BranchId == branchid)
-               .ToList();
-            }
-            catch (Exception e)
-            {
-
-                return new List<domain.Location>();
-            }
-           
+            return await EFOperations.GetQueryable<domain.Location>(true)
+                .Where(e => e.BranchId == branchid).ToListAsync();               
         }
 
-
+        public async Task<domain.Location> GetByIdAsync(int id,bool asNoTracking =false)
+        {
+            return await EFOperations.GetQueryable<domain.Location>(asNoTracking)
+                .FirstOrDefaultAsync(predicate => predicate.Id == id);
+        }
     }
 }

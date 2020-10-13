@@ -5,10 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Locations\UpdatParentOfLocation\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Location.Service.Domain\Location.Service.Domain.csproj" />
   </ItemGroup>
 
