@@ -1,23 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Borda.Service.DotnetCore.Repositories;
 using Location.Service.Application.Locations.GetBranchLocations;
+using Location.Service.Application.Locations.UpdatParentOfLocation;
+using Location.Service.Domain;
 using Location.Service.Domain.Locations;
-using Location.Service.Infrastructure.Repositories;
 using Location.Service.Infrastructure.Contexts;
+using Location.Service.Infrastructure.Repositories;
 using MediatR;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Location.Service.Domain;
+using System;
 
 namespace Location.Api
 {
@@ -44,11 +40,18 @@ namespace Location.Api
                         npSqlOptions.CommandTimeout(3300);
                     });
             });
-
+          
             services.AddScoped<ILocationUnitOfWork, LocationUnitOfWork>();
             services.AddScoped(typeof(IEFOperations<>), typeof(EFOperations<>));            
             services.AddScoped<ILocationRepository, LocationRepository>();
             services.AddMediatR(typeof(GetBranchLocationsQuery).Assembly);
+            services.AddMediatR(typeof(UpdateParentOfLocationCommand).Assembly);
+
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.AddMaps(AppDomain.CurrentDomain.GetAssemblies());
+            }, AppDomain.CurrentDomain.GetAssemblies());
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,7 +72,9 @@ namespace Location.Api
             {
                 endpoints.MapControllers();
             });
+
             AutoMigrate(app);
+
         }
         private void AutoMigrate(IApplicationBuilder app)
         {

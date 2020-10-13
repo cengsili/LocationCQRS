@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace Location.Service.Application.Locations.UpdatParentOfLocation
 {
@@ -15,17 +16,23 @@ namespace Location.Service.Application.Locations.UpdatParentOfLocation
     {
         private readonly ILocationRepository LocationRepository;
         private readonly ILocationUnitOfWork UnitOfWork;
+        private readonly IMapper Mapper;
        
-        public UpdateParentOfLocationCommandHandler(ILocationUnitOfWork unitOfWork,ILocationRepository locationRepository)
+        public UpdateParentOfLocationCommandHandler(
+            ILocationUnitOfWork unitOfWork,
+            IMapper mapper,
+            ILocationRepository locationRepository)
         {
             this.LocationRepository = locationRepository;
             this.UnitOfWork = unitOfWork;
+            this.Mapper = mapper;
            
         }
         public async Task<LocationDto> Handle(UpdateParentOfLocationCommand request, CancellationToken cancellationToken)
         {
             var location = await this.LocationRepository.GetByIdAsync(request.Id,false);
-            throw new NotImplementedException();
+            location.UpdateParent(request.ParentId);
+            return Mapper.Map<LocationDto>(location);
         }
     }
 }
