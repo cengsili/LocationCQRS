@@ -13,10 +13,10 @@ namespace Location.Service.Infrastructure.Repositories
 {
     public class LocationRepository : CrudRepository<LocationContext, domain.Location, int>, ILocationRepository
     {
-        
+        private readonly LocationContext context;
         public LocationRepository(IEFOperations<LocationContext> efOperations) : base(efOperations)
         {
-         
+            this.context = context;
         }
 
         public async Task<List<domain.Location>> GetBranchLocations(int branchid)

@@ -30,7 +30,6 @@ namespace Location.Service.Api.Controllers
 
         public async Task<IActionResult> UpdateParentOfLocation([FromBody] UpdateParentOfLocationRequest request)
         {
-
             var location =await _mediator.Send(new UpdateParentOfLocationCommand(request.LocationId, request.ParentLocationId));
             return Ok(location);
         }

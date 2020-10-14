@@ -1,5 +1,6 @@
 ﻿using Location.Domain;
 using Location.Service.Domain.LocationLevels;
+using Location.Service.Domain.Locations.Rules;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -38,9 +39,15 @@ namespace Location.Service.Domain.Locations
 
        
        // public List<Location> ChildLocations { get; set; }
-       public void UpdateParent(int parentId)
+       public void UpdateParent(
+           Location currentParentLocation, 
+           Location nextParentLocation, 
+           ILocationRepository locationRepository
+          )
        {
-            
+            CheckRule(new LocationsMustBeSameLevel(currentParentLocation, nextParentLocation));
+            this.ParentLocationId = nextParentLocation.Id;
+            locationRepository.Update(this);
        }
     }
 }

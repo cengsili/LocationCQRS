@@ -31,7 +31,10 @@ namespace Location.Service.Application.Locations.UpdatParentOfLocation
         public async Task<LocationDto> Handle(UpdateParentOfLocationCommand request, CancellationToken cancellationToken)
         {
             var location = await this.LocationRepository.GetByIdAsync(request.Id,false);
-            location.UpdateParent(request.ParentId);
+            var currentParentLocation = await this.LocationRepository.GetByIdAsync(location.ParentLocationId??0, false);
+            var nextParentLocation = await this.LocationRepository.GetByIdAsync(request.ParentId, false);
+            location.UpdateParent(currentParentLocation,nextParentLocation,this.LocationRepository);
+            await this.UnitOfWork.CompleteAsync();
             return Mapper.Map<LocationDto>(location);
         }
     }
