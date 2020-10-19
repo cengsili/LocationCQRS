@@ -1,6 +1,6 @@
 ﻿using Borda.Service.DotnetCore.Repositories;
 using Location.Service.Domain;
-using Location.Service.Infrastructure.Contexts;
+using Location.Service.Infrastructure.Database;
 
 using System;
 using System.Collections.Generic;

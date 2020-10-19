@@ -3,7 +3,7 @@ using Location.Service.Application.Locations.GetBranchLocations;
 using Location.Service.Application.Locations.UpdatParentOfLocation;
 using Location.Service.Domain;
 using Location.Service.Domain.Locations;
-using Location.Service.Infrastructure.Contexts;
+using Location.Service.Infrastructure.Database;
 using Location.Service.Infrastructure.Repositories;
 using MediatR;
 using AutoMapper;
@@ -14,6 +14,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using Location.Service.Api.Configuration;
+using Location.Service.Application;
+using Microsoft.AspNetCore.Http;
+using Location.Service.Infrastructure;
+using Location.Service.Application.Configuration;
+using Hellang.Middleware.ProblemDetails;
+using Location.Service.Domain.SeedWork;
+using Location.Service.Api.SeedWork;
 
 namespace Location.Api
 {
@@ -27,7 +35,7 @@ namespace Location.Api
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
             services.AddHttpContextAccessor();
@@ -40,23 +48,31 @@ namespace Location.Api
                         npSqlOptions.CommandTimeout(3300);
                     });
             });
-          
-            services.AddScoped<ILocationUnitOfWork, LocationUnitOfWork>();
-            services.AddScoped(typeof(IEFOperations<>), typeof(EFOperations<>));            
-            services.AddScoped<ILocationRepository, LocationRepository>();
-            services.AddMediatR(typeof(GetBranchLocationsQuery).Assembly);
-            services.AddMediatR(typeof(UpdateParentOfLocationCommand).Assembly);
+            services.AddSwaggerDocumentation();
+            services.AddProblemDetails(x =>
+            {
+               // x.Map<InvalidCommandException>(ex => new InvalidCommandProblemDetails(ex));
+                x.Map<BusinessRuleValidationException>(ex => new BusinessRuleValidationExceptionProblemDetails(ex));
+            });
 
+            services.AddHttpContextAccessor();
+            var serviceProvider = services.BuildServiceProvider();
+
+            IExecutionContextAccessor executionContextAccessor = new ExecutionContextAccessor(serviceProvider.GetService<IHttpContextAccessor>());
             services.AddAutoMapper(cfg =>
             {
                 cfg.AddMaps(AppDomain.CurrentDomain.GetAssemblies());
             }, AppDomain.CurrentDomain.GetAssemblies());
+
+            return ApplicationStartup.Initialize(services, executionContextAccessor) ;
+
 
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseMiddleware<CorrelationMiddleware>();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -74,6 +90,7 @@ namespace Location.Api
             });
 
             AutoMigrate(app);
+            app.UseSwaggerDocumentation();
 
         }
         private void AutoMigrate(IApplicationBuilder app)
